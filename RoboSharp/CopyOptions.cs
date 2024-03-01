@@ -144,7 +144,7 @@ namespace RoboSharp
         
         private IEnumerable<string> fileFilter = new[] { DefaultFileFilter };
         private string copyFlags = "DAT";
-        private string directoryCopyFlags = VersionManager.Version >= 6.2 ? "DA" : "T";
+        private string directoryCopyFlags = VersionManager.Instance.Version >= 6.2 ? "DA" : "T";
 
         #endregion Option Defaults
 
@@ -577,7 +577,7 @@ namespace RoboSharp
         public string Parse(bool optionsOnly = false)
         {
             Debugger.Instance.DebugMessage("Parsing CopyOptions...");
-            var version = VersionManager.Version;
+            var version = VersionManager.Instance.Version;
             var options = new StringBuilder();
 
             if (!optionsOnly)

@@ -9,9 +9,21 @@ using System.Threading.Tasks;
 
 namespace RoboSharp
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public static class VersionManager
+    public interface IVersionManager
     {
+        double Version { get; }
+    }
+    
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class VersionManager : IVersionManager
+    {
+        public static IVersionManager Instance
+        {
+            get;
+            set;
+        }
+        
+        
         public enum VersionCheckType
         {
             UseRtlGetVersion,
@@ -21,8 +33,8 @@ namespace RoboSharp
         public static VersionCheckType VersionCheck { get; set; } = VersionManager.VersionCheckType.UseRtlGetVersion;
 
 
-        private static double? version;
-        public static double Version
+        private double? version;
+        public double Version
         {
             get
             {
@@ -55,6 +67,7 @@ namespace RoboSharp
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            Instance = new VersionManager();
         }
 
 
@@ -108,7 +121,7 @@ namespace RoboSharp
         /// <param name="versionInfo"></param>
         /// <returns></returns>
         [SecurityCritical]
-        [DllImport("ntdll.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport("ntdll.dll", SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "RtlGetVersion123123123")]
         private static extern int RtlGetVersion(ref OSVERSIONINFOEX versionInfo);
         [StructLayout(LayoutKind.Sequential)]
         private struct OSVERSIONINFOEX
