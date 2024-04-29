@@ -123,7 +123,16 @@ namespace RoboSharp.Results
 
             //Speed Stats
             if (exitCode >= 0 && statisticLines.Count >= 6)
-                res.SpeedStatistic = SpeedStatistic.Parse(statisticLines[4], statisticLines[5]);
+            {
+                try
+                {
+                    res.SpeedStatistic = SpeedStatistic.Parse(statisticLines[4], statisticLines[5]);
+                }
+                catch
+                {
+                }
+            }
+                
 
             res.LogLines = _outputLines.ToArray();
             res.RoboCopyErrors = this.RoboCopyErrors.ToArray();
